@@ -1,26 +1,15 @@
 import { Form } from 'react-bootstrap';
 import React, { useState } from 'react';
-import { getDatabase, ref, child, push, update } from '../firebase';
-
-function sendMessage({ text, conversationId, myUid }) {
-    const dbRef = ref(getDatabase());
-    const newMessageId = push(child(dbRef, `conversations/${conversationId}`)).key;
-    const updates = {}, timestamp = Date.now();
-    updates[`/conversations/${conversationId}/${newMessageId}`] = {
-        text,
-        friendId: myUid,
-        timestamp
-    };
-    updates[`/users/${myUid}/conversations/${conversationId}/lastUpdatedAt`] = timestamp;
-    return update(dbRef, updates);
-}
+import { sendMessage } from '../api';
 
 function MessageWriter(props) {
-    const { selectedConversationId, myUid } = props;
+    const { conversationState, profile } = props;
+    const { conversationId } = conversationState;
+    const { uid } = profile;
     const [ message, setMessage ] = useState('');
     return (
         <Form.Control
-            hidden={!myUid || !selectedConversationId}
+            hidden={!uid || !conversationId}
             value={message}
             type="text" 
             placeholder="Type message here"
@@ -29,8 +18,8 @@ function MessageWriter(props) {
                 if(e.keyCode === 13) {
                     sendMessage({ 
                         text: message, 
-                        conversationId: selectedConversationId,
-                        myUid
+                        conversationId,
+                        uid
                     });
                     setMessage('');
                 }

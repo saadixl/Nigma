@@ -45,11 +45,25 @@ async function getConversation({ conversationId }) {
     return snapshot.val();
 }
 
+async function sendMessage({ text, conversationId, uid }) {
+    const dbRef = ref(getDatabase());
+    const newMessageId = push(child(dbRef, `conversations/${conversationId}`)).key;
+    const updates = {}, timestamp = Date.now();
+    updates[`/conversations/${conversationId}/${newMessageId}`] = {
+        text,
+        friendId: uid,
+        timestamp
+    };
+    updates[`/users/${uid}/conversations/${conversationId}/lastUpdatedAt`] = timestamp;
+    return update(dbRef, updates);
+}
+
 export {
     logOut,
     signInWithPopupGoogle,
     getConversations,
-    getConversation
+    getConversation,
+    sendMessage
 };
 
 

@@ -105,10 +105,9 @@ function AppBody() {
                 />
               </section>
               <section className="mainbody-message-writer">
-                {/* <MessageWriter
-                  myUid={myUid}
-                  selectedConversationId={selectedConversationId}
-                  selectedFriendId={selectedFriendId} /> */}
+                <MessageWriter
+                  conversationState={conversationState}
+                  profile={profile} />
               </section>
             </Col>
           </Row>
