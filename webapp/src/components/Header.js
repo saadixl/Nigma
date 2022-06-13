@@ -2,7 +2,7 @@ import { Button, Image } from 'react-bootstrap';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket, faCirclePlus, faClone, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faCirclePlus, faClone } from '@fortawesome/free-solid-svg-icons';
 
 function renderHeaderComponents({ actions, profile, rotorCode }) {
     const { uid, displayName, photoURL } = profile;
@@ -33,11 +33,9 @@ function renderHeaderComponents({ actions, profile, rotorCode }) {
                     onCreateNewConversation({ friendName, friendId });
                 }} className="header-icon" title="Add contact" icon={faCirclePlus} />
 
-                <FontAwesomeIcon className="header-icon" title="Lock" onClick={() => {
+                <span className="mainbody-header-rotor-code" onClick={() => {
                     onToggleRotorModal();
-                }} icon={faLock} />
-
-                <span className="mainbody-header-rotor-code"><code>ROTOR CODE {rotorCode}</code></span>
+                }}><code>ROTOR CODE {rotorCode}</code></span>
 
                 {/* Logout button */}
                 <FontAwesomeIcon className="header-icon" title="Logout" onClick={() => {

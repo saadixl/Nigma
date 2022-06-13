@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 function GenerateDigitDropdown(props) {
-    const { onChange, value } = props;
+    const { onChange } = props;
     let options = [];
     for(let i = 1; i <= 26; i++) {
         const comp = <option value={i}>{i}</option>;
@@ -10,7 +10,7 @@ function GenerateDigitDropdown(props) {
     }
     return (<select onChange={(e) => {
         onChange(e.target.value)
-    }} value={value} className="form-control">
+    }} className="form-control">
         {options}
     </select>);
 }
