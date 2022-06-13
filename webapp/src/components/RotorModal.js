@@ -16,7 +16,7 @@ function GenerateDigitDropdown(props) {
 }
 
 function RotorModal(props) {
-    const { show, onHide, onRotorChange } = props;
+    const { show, onHide, onRotorChange, onRotorReset } = props;
     const [rotorDigits, setRotorDigits] = useState({
         d0: 1,
         d1: 1,
@@ -50,6 +50,9 @@ function RotorModal(props) {
         <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>
             Close
+          </Button>
+          <Button variant="danger" onClick={onRotorReset}>
+            Reset
           </Button>
           <Button variant="primary" onClick={submit}>
             Apply

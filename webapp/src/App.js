@@ -11,6 +11,8 @@ import MessageWriter from './components/MessageWriter';
 import RotorModal from './components/RotorModal';
 import { signInWithPopupGoogle, logOut, getConversations, createNewConversation } from './api';
 
+const defaultRotorCode = "1-1-1";
+
 function AppBody() {
 
   // States
@@ -23,7 +25,7 @@ function AppBody() {
   });
   const [profile, setProfile] = useState({});
   const [showRotorModal, setShowRotorModal] = useState(false);
-  const [rotorCode, setRotorCode] = useState("1-1-1");
+  const [rotorCode, setRotorCode] = useState(defaultRotorCode);
 
   async function onToggleRotorModal() {
     setShowRotorModal(!showRotorModal);
@@ -35,6 +37,11 @@ function AppBody() {
 
   function onRotorChange(code) {
     setRotorCode(code);
+    setShowRotorModal(false);
+  }
+
+  function onRotorReset() {
+    setRotorCode(defaultRotorCode);
     setShowRotorModal(false);
   }
 
@@ -114,6 +121,7 @@ function AppBody() {
                 show={showRotorModal} 
                 onHide={hideRotorModal}
                 onRotorChange={onRotorChange}
+                onRotorReset={onRotorReset}
               />
             </Col>
           </Row>
