@@ -38,10 +38,18 @@ async function getConversations({ uid }) {
     });
 }
 
+async function getConversation({ conversationId }) {
+    const dbRef = ref(getDatabase());
+    const conversationPath = `conversations/${conversationId}`;
+    const snapshot = await get(child(dbRef, conversationPath));
+    return snapshot.val();
+}
+
 export {
     logOut,
     signInWithPopupGoogle,
-    getConversations
+    getConversations,
+    getConversation
 };
 
 

@@ -1,6 +1,7 @@
-import { getDatabase, ref, child, get, onValue } from '../firebase';
+import { getDatabase, ref, onValue } from '../firebase';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { getConversation } from '../api';
 
 function renderMessages({conversation, friendName, uid}) {
     if(!conversation) {
@@ -25,35 +26,37 @@ function renderMessages({conversation, friendName, uid}) {
         return messageComp;
     });
 }
+
 function Chatbox(props) {
     const { conversationState, profile } = props;
     const { conversationId, friendName } = conversationState;
     const { uid } = profile;
     const [conversation, setConversation] = useState({});
+
+    async function fetchConversations() {
+        const conv = await getConversation({ conversationId });
+        setConversation(conv);
+    }
+
+    function realtimeConversationSync() {
+        onValue(ref(getDatabase(), `conversations/${conversationId}`), (snapshot) => {
+            if (snapshot.exists()) {
+                setConversation(snapshot.val());
+            } else {
+                console.log("No data available");
+            }
+        });
+    }
+
     useEffect(() => {
         if(conversationId) {
             console.log("Fetching via conversationId", conversationId);
-            const dbRef = ref(getDatabase());
-            const conversationPath = `conversations/${conversationId}`;
-            get(child(dbRef, conversationPath)).then((snapshot) => {
-                if (snapshot.exists()) {
-                    setConversation(snapshot.val());
-                } else {
-                    console.log("No data available");
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
-
-            onValue(ref(getDatabase(), conversationPath), (snapshot) => {
-                if (snapshot.exists()) {
-                    setConversation(snapshot.val());
-                } else {
-                    console.log("No data available");
-                }
-            });
-
+            // Fetch conversation once
+            fetchConversations();
+            // Realtime listener
+            realtimeConversationSync();
         } else {
+            // Remove conversations
             setConversation();
         }
     }, [conversationId]);
