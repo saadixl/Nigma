@@ -87,14 +87,15 @@ function AppBody() {
             </Col>
             <Col className="mainbody" xs="8">
               <Header
-                others={{ selectedFriendName : conversationState.friendName }}
+                others={{ selectedFriendName : conversationState.friendName, rotorCode }}
                 profile={profile}
                 actions={{
                   onLogoutClick,
                   onGoogleLoginClick,
                   onCreateNewConversation,
                   onToggleRotorModal
-                }} />
+                }}
+                />
               <section className="mainbody-message-viewer">
                 <Chatbox
                   conversationState={conversationState}

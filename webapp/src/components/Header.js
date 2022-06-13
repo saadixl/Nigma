@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faCirclePlus, faClone, faLock } from '@fortawesome/free-solid-svg-icons';
 
-function renderHeaderComponents({ actions, profile }) {
+function renderHeaderComponents({ actions, profile, rotorCode }) {
     const { uid, displayName, photoURL } = profile;
     const { onGoogleLoginClick, onLogoutClick, onCreateNewConversation, onToggleRotorModal } = actions;
     if(displayName && uid) {
@@ -37,6 +37,8 @@ function renderHeaderComponents({ actions, profile }) {
                     onToggleRotorModal();
                 }} icon={faLock} />
 
+                <span className="mainbody-header-rotor-code"><code>ROTOR CODE {rotorCode}</code></span>
+
                 {/* Logout button */}
                 <FontAwesomeIcon className="header-icon" title="Logout" onClick={() => {
                     onLogoutClick();
@@ -56,11 +58,11 @@ function renderHeaderComponents({ actions, profile }) {
 
 function Header(props) {
     const { actions, profile, others } = props;
-    const { selectedFriendName } = others;
+    const { selectedFriendName, rotorCode } = others;
     return (
         <section className="mainbody-header">
             <span className="mainbody-header-friend-name">{selectedFriendName}</span>
-            {renderHeaderComponents({ actions, profile })}
+            {renderHeaderComponents({ actions, profile, rotorCode })}
         </section>
     );
 }
