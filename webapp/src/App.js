@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
-import { getDatabase, ref, child, get, onValue, push, update } from './firebase';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -9,43 +8,15 @@ import Header from './components/Header';
 import Conversations from './components/Conversations';
 import Chatbox from './components/Chatbox';
 import MessageWriter from './components/MessageWriter';
+import { signInWithPopupGoogle, logOut, getConversations, createNewConversation } from './api';
 
-import { signInWithPopupGoogle, logOut, getConversations } from './api';
-
-// const dbRef = ref(getDatabase());
-
-
-// function handleCreateNewConversation(createNewConversation, uid) {
-//   const friendId = window.prompt('Enter contact id here:');
-//   const friendName = window.prompt('Enter contact\'s name here:');
-//   createNewConversation({ friendId, friendName, uid });
-// }
-
-// function createNewConversation({friendId, friendName, myUid}) {
-//   const dbRef = ref(getDatabase());
-//   const newConversationId = push(child(dbRef, `users/${myUid}/conversations`)).key;
-//   const myConversationsPath = `/users/${myUid}/conversations/${newConversationId}`;
-//   const friendsConversationsPath = `/users/${friendId}/conversations/${newConversationId}`;
-//   const updates = {}, lastUpdatedAt = Date.now();
-//   updates[friendsConversationsPath] = {
-//     friendId,
-//     friendName: localStorage.getItem('displayName'),
-//     lastUpdatedAt
-//   };
-//   updates[myConversationsPath] = {
-//     friendId,
-//     friendName,
-//     lastUpdatedAt
-//   };
-//   return update(dbRef, updates);
-// }
 
 function AppBody() {
 
   // States
   const { conversationId } = useParams();
   const [conversationState, setConversationState] = useState({
-    conversationId: '',
+    conversationId,
     friendName: '',
     friendId: '',
     conversations: {}
@@ -66,6 +37,15 @@ function AppBody() {
   async function onLogoutClick() {
     await logOut();
     setProfile({});
+  }
+
+  async function onCreateNewConversation({ friendName, friendId }) {
+    await createNewConversation({
+      profile,
+      friendName,
+      friendId
+    });
+    fetchConversations();
   }
 
   async function fetchConversations() {
@@ -96,7 +76,8 @@ function AppBody() {
                 profile={profile}
                 actions={{
                   onLogoutClick,
-                  onGoogleLoginClick
+                  onGoogleLoginClick,
+                  onCreateNewConversation
                 }} />
               <section className="mainbody-message-viewer">
                 <Chatbox

@@ -6,7 +6,7 @@ import { faArrowRightFromBracket, faCirclePlus, faClone } from '@fortawesome/fre
 
 function renderHeaderComponents({ actions, profile }) {
     const { uid, displayName, photoURL } = profile;
-    const { onGoogleLoginClick, onLogoutClick } = actions;
+    const { onGoogleLoginClick, onLogoutClick, onCreateNewConversation } = actions;
     if(displayName && uid) {
         return (
             <section className="mainbody-header-profile">
@@ -28,6 +28,9 @@ function renderHeaderComponents({ actions, profile }) {
                 {/* Conversation add button */}
                 <FontAwesomeIcon onClick={() => {
                     console.log("Add a new conversation here");
+                    const friendId = window.prompt('Enter contact id here:');
+                    const friendName = window.prompt('Enter contact\'s name here:');
+                    onCreateNewConversation({ friendName, friendId });
                 }} className="header-icon" title="Add contact" icon={faCirclePlus} />
 
                 {/* Logout button */}

@@ -58,12 +58,33 @@ async function sendMessage({ text, conversationId, uid }) {
     return update(dbRef, updates);
 }
 
+function createNewConversation({friendId, friendName, profile}) {
+    const {  displayName, uid } = profile;
+    const dbRef = ref(getDatabase());
+    const newConversationId = push(child(dbRef, `users/${uid}/conversations`)).key;
+    const myConversationsPath = `/users/${uid}/conversations/${newConversationId}`;
+    const friendsConversationsPath = `/users/${friendId}/conversations/${newConversationId}`;
+    const updates = {}, lastUpdatedAt = Date.now();
+    updates[friendsConversationsPath] = {
+        friendId: uid,
+        friendName: displayName,
+        lastUpdatedAt
+    };
+    updates[myConversationsPath] = {
+        friendId,
+        friendName,
+        lastUpdatedAt
+    };
+    return update(dbRef, updates);
+}
+
 export {
     logOut,
     signInWithPopupGoogle,
     getConversations,
     getConversation,
-    sendMessage
+    sendMessage,
+    createNewConversation
 };
 
 
