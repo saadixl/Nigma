@@ -1,0 +1,132 @@
+html, body {
+  overflow-y: hidden;
+}
+
+.sidebar {
+  background: #222;
+  color: #f5f5f5;
+  min-height: 100vh;
+  border-right: 1px solid rgba(255,255,255,.125);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.mainbody {
+  background: #1A1A1A;
+  color: #f5f5f5;
+  min-height: 100vh;
+  padding: 0 !important;
+  position: relative;
+}
+
+.mainbody-header {
+  background: #0a1111;
+  padding: 10px 30px;
+  display: flow-root;
+}
+
+.mainbody-header-profile {
+  float: right;
+}
+
+.mainbody-header-friend-name {
+  margin-top: 15px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+.mainbody-header-name {
+  margin-top: 15px;
+  display: inline-block;
+  font-weight: 400;
+}
+
+.mainbody-header-img {
+  margin-left: 20px;
+  border-radius: 50% !important;
+}
+
+.mainbody-login-button {
+  float: right;
+}
+
+.mainbody-message-viewer {
+  background: #222;
+  height: 90vh;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+.mainbody-message-writer {
+  background: #222;
+  height: 80px;
+  padding: 10px 10px 15px 10px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.mainbody-message-writer input {
+  height: 100%;
+  background: #0a1111 !important;
+  color: #ccc !important;
+  outline: none !important;
+  border: none !important;
+  border-radius: 20px;
+}
+
+.list-group.conversation-list {
+  border-radius: 0;
+}
+
+.conversation-list .list-group-item {
+  cursor: pointer;
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,.125);
+  color: #fff;
+}
+
+.conversation-list .list-group-item.active {
+  background: #0a1111;
+  border: none;
+}
+
+.conversation-list .list-group-item:hover {
+  background: #0a1111;
+}
+
+.message-item-wrapper {
+  padding: 30px;
+  overflow-y: scroll;
+}
+
+.message-item {
+  width: 65%;
+  padding: 5px 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.message-item.friend {
+  background: #0a1111;
+  float: left;
+}
+
+.message-item.own {
+  background: #333;
+  float: right;
+}
+
+.chatter-name {
+  margin-bottom: 0;
+  color: #ccc;
+}
+
+.chat-text {
+  margin-bottom: 0;
+}
+
+.header-icon {
+  margin-left: 20px;
+  cursor: pointer;
+}
