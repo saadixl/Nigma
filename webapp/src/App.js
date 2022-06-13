@@ -8,8 +8,8 @@ import Header from './components/Header';
 import Conversations from './components/Conversations';
 import Chatbox from './components/Chatbox';
 import MessageWriter from './components/MessageWriter';
+import RotorModal from './components/RotorModal';
 import { signInWithPopupGoogle, logOut, getConversations, createNewConversation } from './api';
-
 
 function AppBody() {
 
@@ -22,6 +22,31 @@ function AppBody() {
     conversations: {}
   });
   const [profile, setProfile] = useState({});
+  const [rotorState, setRotorState] = useState({
+    showModal: false,
+    code: ""
+  });
+
+  async function onToggleRotorModal() {
+    setRotorState({
+      ...rotorState,
+      showModal: !rotorState.showModal
+    });
+  }
+
+  async function hideRotorModal() {
+    setRotorState({
+      ...rotorState,
+      showModal: false
+    });
+  }
+
+  function getRotorCode(code) {
+    setRotorState({
+      ...rotorState,
+      code
+    });
+  }
 
   // Method that trigegrs google login on a button click
   async function onGoogleLoginClick() {
@@ -77,7 +102,8 @@ function AppBody() {
                 actions={{
                   onLogoutClick,
                   onGoogleLoginClick,
-                  onCreateNewConversation
+                  onCreateNewConversation,
+                  onToggleRotorModal
                 }} />
               <section className="mainbody-message-viewer">
                 <Chatbox
@@ -90,6 +116,11 @@ function AppBody() {
                   conversationState={conversationState}
                   profile={profile} />
               </section>
+              <RotorModal 
+                show={rotorState.showModal} 
+                onHide={hideRotorModal}
+                getRotorCode={getRotorCode}
+              />
             </Col>
           </Row>
       </Container>
