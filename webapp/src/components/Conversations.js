@@ -36,7 +36,6 @@ function renderConversations(props, navigate) {
 }
 
 function Conversations(props) {
-    const { conversationState, setConversationState } = props;
     let navigate = useNavigate();
     return (
         <ListGroup className="conversation-list" as="ol">
