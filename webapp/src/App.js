@@ -99,6 +99,7 @@ function AppBody() {
                 <Chatbox
                   conversationState={conversationState}
                   profile={profile}
+                  rotorCode={rotorCode}
                 />
               </section>
               <section className="mainbody-message-writer">
