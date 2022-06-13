@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 function GenerateDigitDropdown(props) {
     const { onChange, value } = props;
     let options = [];
-    for(let i = 0; i <= 26; i++) {
+    for(let i = 1; i <= 26; i++) {
         const comp = <option value={i}>{i}</option>;
         options.push(comp);
     }
@@ -16,24 +16,24 @@ function GenerateDigitDropdown(props) {
 }
 
 function RotorModal(props) {
-    const { show, onHide, getRotorCode } = props;
-    const [rotorCode, setRotorCode] = useState({
+    const { show, onHide, onRotorChange } = props;
+    const [rotorDigits, setRotorDigits] = useState({
         d0: 1,
         d1: 1,
         d2: 1,
     });
 
     function updateDigit(id, val) {
-        setRotorCode({
-            ...rotorCode,
+        setRotorDigits({
+            ...rotorDigits,
             [id]: val
         });
     }
 
-    function sendRotorCode() {
-        const { d0, d1, d2 } = rotorCode;
-        let rotorCodeStr = `${d0}-${d1}-${d2}`;
-        getRotorCode(rotorCodeStr);
+    function submit() {
+        const { d0, d1, d2 } = rotorDigits;
+        let rotorCode = `${d0}-${d1}-${d2}`;
+        onRotorChange(rotorCode);
         onHide();
     }
 
@@ -43,15 +43,15 @@ function RotorModal(props) {
           <Modal.Title>Set your enigma rotor code</Modal.Title>
         </Modal.Header>
         <Modal.Body className="rotor-modal">
-            <GenerateDigitDropdown onChange={(val) => { updateDigit('d0', val) }} value={rotorCode.d0} />
-            <GenerateDigitDropdown onChange={(val) => { updateDigit('d1', val) }} value={rotorCode.d1} />
-            <GenerateDigitDropdown onChange={(val) => { updateDigit('d2', val) }} value={rotorCode.d2} />
+            <GenerateDigitDropdown onChange={(val) => { updateDigit('d0', val) }} value={rotorDigits.d0} />
+            <GenerateDigitDropdown onChange={(val) => { updateDigit('d1', val) }} value={rotorDigits.d1} />
+            <GenerateDigitDropdown onChange={(val) => { updateDigit('d2', val) }} value={rotorDigits.d2} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>
             Close
           </Button>
-          <Button variant="primary" onClick={sendRotorCode}>
+          <Button variant="primary" onClick={submit}>
             Apply
           </Button>
         </Modal.Footer>

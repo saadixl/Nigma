@@ -20,7 +20,7 @@ const crypt = ({msg, rotorCode, reverse = false}) => {
         rotorDigit = parseInt(rotorDigit);
         const rotatedAlphabets = getRotatedAlphabets(rotorDigit, reverse);
         charArr.forEach((char, i) => {
-            if(char !== ' ') {
+            if(char !== ' ' && char >= 'A' && char <= 'Z') {
                 const charIndex = char.charCodeAt(0) - 65;
                 charArr[i] = rotatedAlphabets[charIndex];
             }
@@ -35,4 +35,9 @@ const encrypt = ({msg, rotorCode}) => {
 
 const decrypt = ({msg, rotorCode}) => {
     return crypt({msg, rotorCode, reverse: true});
-};  
+};
+
+export {
+    encrypt,
+    decrypt
+}

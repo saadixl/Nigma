@@ -22,30 +22,20 @@ function AppBody() {
     conversations: {}
   });
   const [profile, setProfile] = useState({});
-  const [rotorState, setRotorState] = useState({
-    showModal: false,
-    code: ""
-  });
+  const [showRotorModal, setShowRotorModal] = useState(false);
+  const [rotorCode, setRotorCode] = useState("1-1-1");
 
   async function onToggleRotorModal() {
-    setRotorState({
-      ...rotorState,
-      showModal: !rotorState.showModal
-    });
+    setShowRotorModal(!showRotorModal);
   }
 
   async function hideRotorModal() {
-    setRotorState({
-      ...rotorState,
-      showModal: false
-    });
+    setShowRotorModal(false);
   }
 
-  function getRotorCode(code) {
-    setRotorState({
-      ...rotorState,
-      code
-    });
+  function onRotorChange(code) {
+    setRotorCode(code);
+    setShowRotorModal(false);
   }
 
   // Method that trigegrs google login on a button click
@@ -83,7 +73,7 @@ function AppBody() {
 
   useEffect(() => {
     fetchConversations();
-  }, [profile]);
+  }, [profile, rotorCode]);
 
   return (
     <div className="App">
@@ -114,12 +104,14 @@ function AppBody() {
               <section className="mainbody-message-writer">
                 <MessageWriter
                   conversationState={conversationState}
-                  profile={profile} />
+                  profile={profile}
+                  rotorCode={rotorCode}
+                />
               </section>
               <RotorModal 
-                show={rotorState.showModal} 
+                show={showRotorModal} 
                 onHide={hideRotorModal}
-                getRotorCode={getRotorCode}
+                onRotorChange={onRotorChange}
               />
             </Col>
           </Row>
